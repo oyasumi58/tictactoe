@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div id="container" class="inactive">
+        <h1>Tic Tac Toe</h1>
+        <div class="flexCon">
+            <button type="button" id="startGame" >Set Names</button>
+            <button type="button" id="startRound" hidden>Start New Round</button>
+            <button type="button" id="endGame" hidden>End Game</button>
+            <h6 class="playerMarker">Player 1: X | Player 2: O</h6>
+        </div>
+        <div class="holder">
+            <div class="wrapper">
+                <button type="button" class="cell" data-column="1" data-row="1"></button>
+                <button type="button" class="cell" data-column="2" data-row="1"></button>
+                <button type="button" class="cell" data-column="3" data-row="1"></button>
+                <button type="button" class="cell" data-column="1" data-row="2"></button>
+                <button type="button" class="cell" data-column="2" data-row="2"></button>
+                <button type="button" class="cell" data-column="3" data-row="2"></button>
+                <button type="button" class="cell" data-column="1" data-row="3"></button>
+                <button type="button" class="cell" data-column="2" data-row="3"></button>
+                <button type="button" class="cell" data-column="3" data-row="3"></button>
+            </div>
+            <div class="stats">
+                <div id="statsTitle"> &nbsp;~~~Stats~~~</div>
+            </div>
+        </div>
+        
+        <footer>
+            Made by oyasumi58 | Project from TOP
+        </footer>
+    </div>
+</body>
+</html>
