@@ -118,12 +118,41 @@ function Gameboard() {
     }
 
     endGame = function() {
+        const dialog = document.querySelector("dialog");
+        const winnerLabel = document.querySelector("#winnerLabel");
+        const scoreDisp = document.querySelector("#scoreDisplay");
+        let winner, loser, wScore, lScore;
+        if (PController.getPlayer1().score > PController.getPlayer2().score) {
+           winner = PController.getPlayer1().name;
+           wScore = PController.getPlayer1().score;
+           loser = PController.getPlayer2().name;
+           lScore = PController.getPlayer2().score;
+        } else if (PController.getPlayer1().score < PController.getPlayer2().score) {
+            winner = PController.getPlayer2().name;
+            wScore = PController.getPlayer2().score;
+            loser = PController.getPlayer1().name;
+            lScore = PController.getPlayer1().score;
+        } else {
+            winner = "it's a draw";
+        }
+        winnerLabel.textContent = `CONGRATULATIONS, ${winner}!`;
+        if (loser) {
+            scoreDisp.textContent = `${winner} - ${loser} : ${wScore} - ${lScore}`;
+        } else {
+            scoreDisp.textContent = `${PController.getPlayer1().score} - ${PController.getPlayer2().score}`
+        }
+        dialog.showModal();
+    }
+
+    hardReset = function() {
         gameStart = false;
+        PController.deletePlayers();
+        PController.setPlayers("Empty","Empty");
         buttonHandler.startButton.removeAttribute("hidden");
         buttonHandler.newRound.setAttribute("hidden","");
         buttonHandler.endGame.setAttribute("hidden","");
-        //call up some modal to display winner.
-        //modal shld have button to actually refresh
+        displayController.appendStats();
+        displayController.appendScore();
     }
 
     resultCheck = function() { //pass in board to access current board, not []
@@ -193,7 +222,7 @@ function Gameboard() {
         console.log(`Gamestart is ${gameStart}`)
         return gameStart;
     }
-    return {newRound,endGame,start,score,newGame,getGameStart,board,refresh,printGame,place,resultCheck,player1Score,player2Score};
+    return {hardReset,newRound,endGame,start,score,newGame,getGameStart,board,refresh,printGame,place,resultCheck,player1Score,player2Score};
 }
 
 
@@ -248,6 +277,11 @@ const PController = (function () { //IIFE
         return currentPlayer;
     }
 
+    deletePlayers = function() {
+        delete player1;
+        delete player2;
+    }
+
     switchCurrentPlayer = function() {
         currentPlayer = currentPlayer === player1 ? player2 : player1;
         console.log(`Current player is ${currentPlayer.name}`);
@@ -271,11 +305,11 @@ const PController = (function () { //IIFE
     getPlayer2 = function() {
         return player2;
     }
-    return {resetCurrentPlayer,getPlayer1, getPlayer2, setPlayers,switchCurrentPlayer,passMark,getCurrentPlayer};
+    return {deletePlayers,resetCurrentPlayer,getPlayer1, getPlayer2, setPlayers,switchCurrentPlayer,passMark,getCurrentPlayer};
 })();
 
 
-PController.setPlayers("Empty","Empty");
+
 // PController.switchCurrentPlayer();
 // PController.switchCurrentPlayer();
 
@@ -337,6 +371,11 @@ displayController = (function() {
     }
 
     appendScore = function() {
+        if (PController.getPlayer1().name == "Empty" && PController.getPlayer2().name == "Empty") {
+            scoreNode1.textContent = ``;
+            scoreNode2.textContent = ``;
+            return;
+        }
         scoreNode1.textContent = `${player1.name}'s Score: ${player1.score}`;
         scoreNode2.textContent = `${player2.name}'s Score: ${player2.score}`;
     }
@@ -439,7 +478,9 @@ buttonHandler = (function addButtonEvent() {
     const startButton = document.querySelector("#startGame");
     const newRound = document.querySelector("#startRound");
     const endGame = document.querySelector("#endGame");
-    begin = function() {
+    const dialog = document.querySelector("dialog");
+    const resetButton = document.querySelector("#confirmButton");
+    begin = function() { //ONLY AT THE BEGINNING, NEVER AGAIN
         startButton.addEventListener("click", () => {
             Game.newGame();
             cell();
@@ -450,11 +491,22 @@ buttonHandler = (function addButtonEvent() {
         endGame.addEventListener("click", () => {
             Game.endGame();
         })
+        dialog.addEventListener("click", (e) => {
+            if (e.target === dialog) {
+                dialog.close();
+                e.stopPropagation();
+            }
+        })
+        resetButton.addEventListener("click", () => {
+            Game.hardReset();
+            dialog.close();
+        })
     }
 
     return {newRound,endGame,startButton,buttons,eventHandlers,getButtonsEvent,removeCellEvent,begin,cell};
 })();
 
+PController.setPlayers("Empty","Empty");
 const Game = Gameboard();
 displayController.appendStats();
 buttonHandler.begin();
@@ -462,3 +514,5 @@ Game.start();
 // buttonHandler.cell();
 
 // Game.newGame();
+const dialog = document.querySelector("dialog");
+        dialog.showModal();
