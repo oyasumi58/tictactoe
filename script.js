@@ -9,9 +9,9 @@ function Gameboard() {
     let midRound = false; //flag for stopping turn display append between rounds
 
     refresh = function() {
-        console.log(`before: ${buttonHandler.eventHandlers.size}`);
+        //console.log(`before: ${buttonHandler.eventHandlers.size}`);
         buttonHandler.removeCellEvent();
-        console.log(`after: ${buttonHandler.eventHandlers.size}`);
+        //console.log(`after: ${buttonHandler.eventHandlers.size}`);
         // board = []; this assigns new array
         board.length = 0; //maintains the reference
         setTimeout(displayController.refreshMarkers,200);
@@ -28,8 +28,8 @@ function Gameboard() {
         buttonHandler.endGame.removeAttribute("hidden");
         displayController.refreshDisplay();
         midRound = true;
-        console.log(`refreshed`);
-        console.log(board);
+        //console.log(`refreshed`);
+        //console.log(board);
     }
     start = function() {
         for (i=0; i <= 2; i++) {
@@ -45,15 +45,15 @@ function Gameboard() {
 
     place = function(row,column) {
         if (typeof board[row -1][column -1] === "string") {
-            console.log('space taken already');
+            //console.log('space taken already');
             return ;
         }
 
         //console.log(board[row -1][column -1].getMark())
         board[row -1][column -1] = board[row -1][column -1].getMark();
-        console.log(`Placed at Row ${row} Column ${column}`)
+        //console.log(`Placed at Row ${row} Column ${column}`)
         
-        console.log(board);
+        //console.log(board);
         appendMarkers(row,column);
         PController.switchCurrentPlayer();
         resultCheck();//>refresh > stuff
@@ -162,12 +162,12 @@ function Gameboard() {
             let checkP1WinHori = board[i].every(element => element === "x");
             let checkP2WinHori = board[i].every(element => element === "o");
             if (checkP1WinHori === true) {
-                console.log("P1 WIN HORI");
+                //console.log("P1 WIN HORI");
                 displayResult("P1Win");
                 Game.score("player1");
                 refresh();
             } else if (checkP2WinHori === true) {
-                console.log("P2 WIN HORI");
+                //console.log("P2 WIN HORI");
                 displayResult("P2Win");
                 Game.score("player2");
                 refresh();
@@ -177,32 +177,32 @@ function Gameboard() {
         }
 
         if ((board[0][0] === board[1][0] && board [0][0] === board[2][0]  && board[0][0] === "x") || (board[0][1] === board[1][1] && board [0][1] === board[2][1] && board[0][1] === "x") || (board[0][2] === board[1][2] && board[0][2] === board[2][2] && board[0][2] === "x")) {
-            console.log("P1 WIN VERT");
+            //console.log("P1 WIN VERT");
             displayResult("P1Win");
             Game.score("player1");
             refresh();
         } else if ((board[0][0] === board[1][0] && board [0][0] === board[2][0]  && board[0][0] === "o") || (board[0][1] === board[1][1] && board [0][1] === board[2][1] && board[0][1] === "o") || (board[0][2] === board[1][2] && board[0][2] === board[2][2] && board[0][2] === "o")) {
-            console.log("P2 WIN VERT");
+            //console.log("P2 WIN VERT");
             displayResult("P2Win");
             Game.score("player2");
             refresh();
         } else if ((board[0][0] === board[1][1] && board [0][0] === board[2][2] && board[0][0] === "x") || (board[0][2] === board[1][1] && board [0][2] === board[2][0] && board[2][0] === "x")) {
-            console.log("P1 WIN DIAG");
+            //console.log("P1 WIN DIAG");
             displayResult("P1Win");
             Game.score("player1");
             refresh();
         } else if ((board[0][0] === board[1][1] && board [0][0] === board[2][2] && board[0][0] === "o") || (board[0][2] === board[1][1] && board [0][2] === board[2][0] && board[2][0] === "o")) {
-            console.log("P2 WIN DIAG");
+            //console.log("P2 WIN DIAG");
             displayResult("P2Win");
             Game.score("player2");
             refresh();
         } else if (stringCount === 3) {
-            console.log("Draw");
+            //console.log("Draw");
             displayResult("Draw");
             refresh();
 
         } else {
-            console.log("continue");
+            //console.log("continue");
         }
 
         stringCount = 0;
@@ -214,12 +214,12 @@ function Gameboard() {
         } else if (playerWon === "player2") {
             return PController.getPlayer2().score += 1;
         } else {
-            console.log("score error");
+            //console.log("score error");
         }
     }
 
     getGameStart = function() {
-        console.log(`Gamestart is ${gameStart}`)
+        //console.log(`Gamestart is ${gameStart}`)
         return gameStart;
     }
     return {hardReset,newRound,endGame,start,score,newGame,getGameStart,board,refresh,printGame,place,resultCheck,player1Score,player2Score};
@@ -284,12 +284,12 @@ const PController = (function () { //IIFE
 
     switchCurrentPlayer = function() {
         currentPlayer = currentPlayer === player1 ? player2 : player1;
-        console.log(`Current player is ${currentPlayer.name}`);
+        //console.log(`Current player is ${currentPlayer.name}`);
         return currentPlayer;
     }
 
     passMark = function() {
-        console.log(currentPlayer.marker);
+        //console.log(currentPlayer.marker);
         return getCurrentPlayer().marker;
     }
 
@@ -330,11 +330,11 @@ displayController = (function() {
     const playerMarker = document.querySelector(".playerMarker");
 
     refreshDisplay = function() {
-        console.log(container);
+        //console.log(container);
         container.removeAttribute("class");
-        console.log(container);
+        //console.log(container);
         container.setAttribute("class","inactive");
-        console.log(container);
+        //console.log(container);
     }
     
 
@@ -344,12 +344,12 @@ displayController = (function() {
             //console.log("AFKJGFhjfgj");
             turnNode.textContent = `Turn: ${PController.getCurrentPlayer().name}`;
             if (PController.getCurrentPlayer().marker === "x") {
-                console.log(`p1`);
+                //console.log(`p1`);
                 container.removeAttribute("class");
                 container.setAttribute("class","player1");
             
             } else if (PController.getCurrentPlayer().marker === "o") {
-                console.log(`p2`);
+                //console.log(`p2`);
                 container.removeAttribute("class");
                 container.setAttribute("class","player2");
             }  
@@ -441,7 +441,7 @@ buttonHandler = (function addButtonEvent() {
     }
 
     cell = function() {
-        console.log("got new events");
+        //console.log("got new events");
         for (let i = 0; i < 9; i++) {
             let buttonRow = Number(buttons[i].getAttribute("data-row"));
             let buttonCol = Number(buttons[i].getAttribute("data-column"));
@@ -450,7 +450,7 @@ buttonHandler = (function addButtonEvent() {
             buttons[i].addEventListener("click", eventHandler)
             eventHandlers.set(buttons[i], eventHandler);
         }
-        console.log(eventHandlers);
+        //console.log(eventHandlers);
         return eventHandlers;
     }
 
@@ -512,7 +512,3 @@ displayController.appendStats();
 buttonHandler.begin();
 Game.start();
 // buttonHandler.cell();
-
-// Game.newGame();
-const dialog = document.querySelector("dialog");
-        dialog.showModal();
