@@ -112,6 +112,8 @@ function Gameboard() {
         PController.resetCurrentPlayer();
         midRound = false;
         displayController.appendStats();
+        const title = document.querySelector("h1");
+        title.textContent = "Tic Tac Toe";
         for (i=0; i < 9; i++) {
             buttonHandler.buttons[i].setAttribute("class", "cell");
         }
@@ -153,6 +155,8 @@ function Gameboard() {
         buttonHandler.endGame.setAttribute("hidden","");
         displayController.appendStats();
         displayController.appendScore();
+        const title = document.querySelector("h1");
+        title.textContent = "Tic Tac Toe";
     }
 
     resultCheck = function() { //pass in board to access current board, not []
